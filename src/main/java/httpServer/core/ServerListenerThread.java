@@ -1,5 +1,8 @@
 package httpServer.core;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,6 +10,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerListenerThread extends Thread {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(ServerListenerThread.class);
+
 
     private int port;
     private String webroot;
@@ -23,32 +29,22 @@ public class ServerListenerThread extends Thread {
 
         try {
 
-            Socket socket = serverSocket.accept();
-
-            InputStream inputStream = socket.getInputStream();
-            OutputStream outputStream = socket.getOutputStream();
-
-            //TODO IT WOULD READ
-            String html = "<html><head><title>Java HTTP Server</title></head><body><h1>Smacznej kawusi ;)</h1></body></html>";
-            //TODO IT WOULD WRITE
-
-            final String CRLF = "\n\r"; // 13 10
-
-            String response =
-                    "HTTP/1.1 200 OK" + CRLF + //Status line : HTTP VERSION RESPONSE_CODE ROSPONSE_MESSAGE
-                            "CONTENT-LENGTH" + html.getBytes().length + CRLF + //HEADER
-                            CRLF +
-                            html +
-                            CRLF + CRLF;
-            outputStream.write(response.getBytes());
-
-            inputStream.close();
-            outputStream.close();
-            socket.close();
-            serverSocket.close();
+            while(serverSocket.isBound() && !serverSocket.isClosed()) {
+                Socket socket = serverSocket.accept();
+                LOGGER.info(" * Connection accepted : " + socket.getInetAddress());
+                HttpConnectionWorkerThread workerThread = new HttpConnectionWorkerThread(socket);
+                workerThread.start();
+            }
+            //serverSocket.close(); //TODO LATER
 
         } catch(IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Problem with setting socket " + e);
+        }finally {
+            if(serverSocket != null){
+                try {
+                    serverSocket.close();
+                }catch(IOException e){}
+            }
         }
 
     }
