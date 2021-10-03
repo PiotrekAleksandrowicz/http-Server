@@ -28,14 +28,12 @@ public class ServerListenerThread extends Thread {
     public void run(){
 
         try {
-
             while(serverSocket.isBound() && !serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 LOGGER.info(" * Connection accepted : " + socket.getInetAddress());
                 HttpConnectionWorkerThread workerThread = new HttpConnectionWorkerThread(socket);
                 workerThread.start();
             }
-            //serverSocket.close(); //TODO LATER
 
         } catch(IOException e) {
             LOGGER.error("Problem with setting socket " + e);
@@ -46,6 +44,5 @@ public class ServerListenerThread extends Thread {
                 }catch(IOException e){}
             }
         }
-
     }
 }

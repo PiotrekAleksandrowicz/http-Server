@@ -18,6 +18,8 @@ import java.io.IOException;
 
 public class HttpServer {
 
+    //TODO PREPARE AWS ACCOUNT, EC2 LOAD BALANCER
+
     private final static Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
 
     public static void main (String[]args){

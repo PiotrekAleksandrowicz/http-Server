@@ -28,9 +28,9 @@ public class HttpConnectionWorkerThread extends Thread {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
 
-            //TODO IT WOULD READ
+
             String html = "<html><head><title>Java HTTP Server</title></head><body><h1>Smacznej kawusi ;)</h1></body></html>";
-            //TODO IT WOULD WRITE
+
 
             final String CRLF = "\n\r"; // 13 10
 
@@ -62,7 +62,5 @@ public class HttpConnectionWorkerThread extends Thread {
                 }catch(IOException e){}
             }
         }
-
-
     }
 }
