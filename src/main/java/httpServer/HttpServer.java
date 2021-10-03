@@ -34,7 +34,7 @@ public class HttpServer {
             OutputStream outputStream = socket.getOutputStream();
 
             //TODO IT WOULD READ
-            String html = "<html><head><title>Java HTTP Server</title></head><body><h1>Ahoj Aleksander, smacznej kawusi ;)</h1></body></html>";
+            String html = "<html><head><title>Java HTTP Server</title></head><body><h1>Smacznej kawusi ;)</h1></body></html>";
             //TODO IT WOULD WRITE
 
             final String CRLF = "\n\r"; // 13 10
